@@ -1,7 +1,7 @@
 import mongoose, { mongo } from "mongoose";
 
 const connectDB = (url) => {
-  mongoose.set("strictQuery", true); // useful when working with search functionality
+  mongoose.set("strictQuery", true); //useful when working with search functionality
 
   mongoose
     .connect(url)

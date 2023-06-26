@@ -20,6 +20,30 @@ const Home = () => {
   const [allPosts, setAllPosts] = useState(null);
   const [searchText, setsearchText] = useState("");
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/post", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.ok) {
+          const result = await response.json();
+          setAllPosts(result.data.reverse());
+        }
+      } catch (err) {
+        alert(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPosts();
+  }, []);
+
   //max-w-7xl will be a max - width of about 80 rem
   return (
     <section className="max-w-7xl mx-auto">
@@ -56,7 +80,7 @@ const Home = () => {
                 />
               ) : (
                 <RenderCards
-                  data={[]} // we will pass by an array of data later
+                  data={allPosts} // we will pass by an array of data later
                   title="No posts found"
                 />
               )}

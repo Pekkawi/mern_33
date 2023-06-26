@@ -39,7 +39,31 @@ const CreatePost = () => {
     }
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (form.prompt && form.photo) {
+      setloading(true);
+
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/posts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+        await response.json();
+        navigate("/");
+      } catch (err) {
+        alert(err);
+      } finally {
+        setloading(false);
+      }
+    } else {
+      alert("Please enter a prompt and generate an image");
+    }
+  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
